@@ -18,7 +18,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO{
         try {
             conn = connectDB();
 
-            ps = conn.prepareStatement("INSERT INTO usuarios (usuario, password, rol) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement("INSERT INTO usuarios (usuario, password, rol) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             int idx = 1;
             ps.setString(idx++, usuario.getUsuario());

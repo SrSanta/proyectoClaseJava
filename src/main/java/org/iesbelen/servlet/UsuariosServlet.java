@@ -145,11 +145,13 @@ public class UsuariosServlet extends HttpServlet {
         String usuario = request.getParameter("usuario");
         String password = request.getParameter("password");
         String rol = request.getParameter("rol");
+        Integer id = Integer.parseInt(request.getParameter("idUsuario"));
         Usuario nuevoUser= new Usuario();
         UsuarioDAO userDAO = new UsuarioDAOImpl();
 
 
         try {
+            nuevoUser.setIdUsuario(id);
             nuevoUser.setUsuario(usuario);
             nuevoUser.setPassword(password);
             nuevoUser.setRol(rol);
