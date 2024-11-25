@@ -88,7 +88,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO{
         try {
             conn = connectDB();
 
-            ps = conn.prepareStatement("SELECT * FROM usuarios WHERE idUsuaro = ?");
+            ps = conn.prepareStatement("SELECT * FROM usuarios WHERE IdUsuario = ?");
 
             int idx =  1;
             ps.setInt(idx, id);
@@ -101,7 +101,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO{
                 user.setIdUsuario(rs.getInt(idx++));
                 user.setUsuario(rs.getString(idx++));
                 user.setPassword(rs.getString(idx++));
-                user.setRol(rs.getString(idx++));
+                user.setRol(rs.getString(idx));
 
                 return Optional.of(user);
             }
@@ -128,7 +128,9 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO{
             int idx = 1;
             ps.setString(idx++, usuario.getUsuario());
             ps.setString(idx++, usuario.getPassword());
-            ps.setString(idx, usuario.getRol());
+            ps.setString(idx++, usuario.getRol());
+            ps.setInt(idx++, usuario.getIdUsuario());
+
 
             int rows = ps.executeUpdate();
 

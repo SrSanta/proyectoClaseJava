@@ -9,13 +9,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.iesbelen.dao.UsuarioDAO;
 import org.iesbelen.dao.UsuarioDAOImpl;
 import org.iesbelen.model.Usuario;
+import org.iesbelen.utilities.Util;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 
 @WebServlet(name = "usuariosServlet", value = "/tienda/usuarios/*")
 public class UsuariosServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,7 +34,7 @@ public class UsuariosServlet extends HttpServlet {
             //	/usuarios/
             //	/usuarios
 
-            request.setAttribute("listaProductos", userDAO.getAll());
+            request.setAttribute("listaUsuarios", userDAO.getAll());
             dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuarios.jsp");
 
         } else {
@@ -113,11 +116,19 @@ public class UsuariosServlet extends HttpServlet {
             String rol = request.getParameter("rol");
             Usuario nuevoUser= new Usuario();
             nuevoUser.setUsuario(usuario);
-            nuevoUser.setPassword(password);
+
+            try {
+                nuevoUser.setPassword(Util.hashPassword(password));
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
+
             nuevoUser.setRol(rol);
 
             UsuarioDAO UsuarioDAO = new UsuarioDAOImpl();
             UsuarioDAO.create(nuevoUser);
+
+
 
         } else if (__method__ != null && "put".equalsIgnoreCase(__method__)) {
             // Actualizar uno existente
@@ -153,7 +164,11 @@ public class UsuariosServlet extends HttpServlet {
         try {
             nuevoUser.setIdUsuario(id);
             nuevoUser.setUsuario(usuario);
-            nuevoUser.setPassword(password);
+            try {
+                nuevoUser.setPassword(Util.hashPassword(password));
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
             nuevoUser.setRol(rol);
             userDAO.update(nuevoUser);
         } catch (NumberFormatException nfe) {

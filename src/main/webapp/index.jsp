@@ -16,6 +16,8 @@
     <div class="d-grid gap-2" id="contenedor">
         <a class="btn btn-primary btn-lg" href="<%=application.getContextPath()%>/tienda/fabricantes">FABRICANTES</a>
         <a class="btn btn-success btn-lg" href="<%=application.getContextPath()%>/tienda/productos">PRODUCTOS</a>
+        <a class="btn btn-secondary btn-lg" href="<%=application.getContextPath()%>/tienda/usuarios">USUARIOS</a>
+
     </div>
 
     <%@include file="boostrap.jspf"%>
