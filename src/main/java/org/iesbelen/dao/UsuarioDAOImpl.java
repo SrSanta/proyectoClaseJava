@@ -172,4 +172,39 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO{
             closeDb(conn, ps, rs);
         }
     }
+
+    public Optional<Usuario> findUsuario(String usuario) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = connectDB();
+
+            ps = conn.prepareStatement("SELECT * FROM usuarios WHERE usuario = ?");
+
+            int idx =  1;
+            ps.setString(idx, usuario);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Usuario user = new Usuario();
+                idx = 1;
+                user.setIdUsuario(rs.getInt(idx++));
+                user.setUsuario(rs.getString(idx++));
+                user.setPassword(rs.getString(idx++));
+                user.setRol(rs.getString(idx));
+
+                return Optional.of(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            closeDb(conn, ps, rs);
+        }
+        return Optional.empty();
+    }
 }

@@ -12,4 +12,6 @@ public interface UsuarioDAO {
     public Optional<Usuario> find(int id);
     public void update(Usuario usuario);
     public void delete(int id);
+
+    Optional<Usuario> findUsuario(String usuario);
 }

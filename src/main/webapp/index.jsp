@@ -1,3 +1,5 @@
+<%@ page import="org.iesbelen.model.Usuario" %>
+<%@ page import="java.util.Optional" %>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +14,19 @@
     </style>
 </head>
 <body>
-
+<%
+    Optional<Usuario> usu = Optional.ofNullable((Usuario) session.getAttribute("usuario-logado"));
+    if (usu.isPresent()){
+%>
+<h3><%= usu.get().getUsuario()%></h3>
+<div><a class="btn btn-secondary btn-lg" href="<%=application.getContextPath()%>/tienda/usuarios/logout">LOGIN</a></div>
+<%
+} else {
+%>
+<div><a class="btn btn-secondary btn-lg" href="<%=application.getContextPath()%>/tienda/usuarios/login">LOGIN</a></div>
+<%
+    }
+%>
     <div class="d-grid gap-2" id="contenedor">
         <a class="btn btn-primary btn-lg" href="<%=application.getContextPath()%>/tienda/fabricantes">FABRICANTES</a>
         <a class="btn btn-success btn-lg" href="<%=application.getContextPath()%>/tienda/productos">PRODUCTOS</a>
