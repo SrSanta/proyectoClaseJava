@@ -147,6 +147,12 @@ public class UsuariosServlet extends HttpServlet {
 
         } else if (__method__ != null && "login".equalsIgnoreCase(__method__)) {
             doLogin(request, response);
+            response.sendRedirect(request.getContextPath());
+            return;
+        } else if (__method__ != null && "logout".equalsIgnoreCase(__method__)) {
+            doLogout(request, response);
+            response.sendRedirect(request.getContextPath());
+            return;
         } else {
             System.out.println("Opción POST no soportada.");
         }
@@ -202,7 +208,7 @@ public class UsuariosServlet extends HttpServlet {
         }
     }
 
-    private void doLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void doLogin(HttpServletRequest request, HttpServletResponse response){
         String usuario = request.getParameter("usuario");
         String contrasena = request.getParameter("password");
         String contrasenaHasheada;
@@ -225,11 +231,13 @@ public class UsuariosServlet extends HttpServlet {
             } else {
                 System.out.println("Contrasena no valida");
             }
-            return;
         } else {
             System.out.println("No se encuentra el usuario");
-            return;
         }
 
+    }
+    private void doLogout(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session=request.getSession();
+        session.invalidate();
     }
 }

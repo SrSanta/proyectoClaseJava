@@ -19,7 +19,14 @@
     if (usu.isPresent()){
 %>
 <h3><%= usu.get().getUsuario()%></h3>
-<div><a class="btn btn-secondary btn-lg" href="<%=application.getContextPath()%>/tienda/usuarios/logout">LOGIN</a></div>
+<div>
+    <form action="<%=application.getContextPath()%>/tienda/usuarios/logout/" method="post">
+        <input type="hidden" name="__method__" value="logout" />
+        <div style="position: absolute; left: 39%; top : 39%;">
+            <input class="btn btn-secondary btn-lg" type="submit" value="logout"/>
+        </div>
+    </form>
+</div>
 <%
 } else {
 %>
