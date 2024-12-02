@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="java.util.List"%>
 <%@ page import="org.iesbelen.model.Usuario" %>
+<%@ page import="java.util.Optional" %>
 
 <html>
 <head>
@@ -21,6 +22,26 @@
     </style>
 </head>
 <body>
+<%
+    Optional<Usuario> usu = Optional.ofNullable((Usuario) session.getAttribute("usuario-logado"));
+    if (usu.isPresent()){
+%>
+<h3><%= usu.get().getUsuario()%></h3>
+<div>
+    <form action="<%=application.getContextPath()%>/tienda/usuarios/logout/" method="post">
+        <input type="hidden" name="__method__" value="logout" />
+        <div style="position: absolute; left: 39%; top : 39%;">
+            <input class="btn btn-secondary btn-lg" type="submit" value="logout"/>
+        </div>
+    </form>
+</div>
+<%
+} else {
+%>
+<div><a class="btn btn-secondary btn-lg" href="<%=application.getContextPath()%>/tienda/usuarios/login">LOGIN</a></div>
+<%
+    }
+%>
 <div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
     <div class="clearfix">
         <div style="float: left; width: 50%">
@@ -29,10 +50,15 @@
         <div style="float: none;width: auto;overflow: hidden;min-height: 80px;position: relative;">
 
             <div style="position: absolute; left: 39%; top : 39%;">
-
+                <%
+                    if (usu.isPresent()){
+                %>
                 <form action="${pageContext.request.contextPath}/tienda/usuarios/crear">
                     <input type="submit" value="Crear">
                 </form>
+                <%
+                    }
+                %>
             </div>
 
         </div>
@@ -43,7 +69,13 @@
     <div class="clearfix">
         <div style="float: left;width: 10%">idUsuario</div>
         <div style="float: left;width: 30%">Usuario</div>
+        <%
+            if (usu.isPresent()){
+        %>
         <div style="float: left;width: 20%">password</div>
+        <%
+            }
+        %>
         <div style="float: left;width: 20%;overflow: hidden;">Rol</div>
     </div>
     <div class="clearfix">
@@ -59,12 +91,21 @@
     <div style="margin-top: 6px;" class="clearfix">
         <div style="float: left;width: 10%"><%= usuario.getIdUsuario()%></div>
         <div style="float: left;width: 30%"><%= usuario.getUsuario()%></div>
+        <%
+            if (usu.isPresent()){
+        %>
         <div style="float: left;width: 20%"><%= usuario.getPassword().substring(0,4)%></div>
+        <%
+            }
+        %>
         <div style="float: left;width: 20%"><%= usuario.getRol()%></div>
         <div style="float: none;width: auto;overflow: hidden;">
             <form action="${pageContext.request.contextPath}/tienda/usuarios/<%= usuario.getIdUsuario()%>" style="display: inline;">
                 <input type="submit" value="Ver Detalle" />
             </form>
+            <%
+                if (usu.isPresent()){
+            %>
             <form action="${pageContext.request.contextPath}/tienda/usuarios/editar/<%= usuario.getIdUsuario()%>" style="display: inline;">
                 <input type="submit" value="Editar" />
             </form>
@@ -73,6 +114,9 @@
                 <input type="hidden" name="codigo" value="<%= usuario.getIdUsuario()%>"/>
                 <input type="submit" value="Eliminar" />
             </form>
+            <%
+                }
+            %>
         </div>
     </div>
     <%

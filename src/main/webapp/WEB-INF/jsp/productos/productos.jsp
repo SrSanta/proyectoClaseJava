@@ -3,6 +3,8 @@
 <%@page import="org.iesbelen.model.Fabricante"%>
 <%@page import="java.util.List"%>
 <%@ page import="org.iesbelen.model.Producto" %>
+<%@ page import="org.iesbelen.model.Usuario" %>
+<%@ page import="java.util.Optional" %>
 
 <!DOCTYPE html>
 <html>
@@ -20,6 +22,26 @@
 <body>
 <body>
 
+<%
+	Optional<Usuario> usu = Optional.ofNullable((Usuario) session.getAttribute("usuario-logado"));
+	if (usu.isPresent()){
+%>
+<h3><%= usu.get().getUsuario()%></h3>
+<div>
+	<form action="<%=application.getContextPath()%>/tienda/usuarios/logout/" method="post">
+		<input type="hidden" name="__method__" value="logout" />
+		<div style="position: absolute; left: 39%; top : 39%;">
+			<input class="btn btn-secondary btn-lg" type="submit" value="logout"/>
+		</div>
+	</form>
+</div>
+<%
+} else {
+%>
+<div><a class="btn btn-secondary btn-lg" href="<%=application.getContextPath()%>/tienda/usuarios/login">LOGIN</a></div>
+<%
+	}
+%>
 	<div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
 		<div class="clearfix">
 			<div style="float: left; width: 50%">
@@ -28,10 +50,15 @@
 			<div style="float: none;width: auto;overflow: hidden;min-height: 80px;position: relative;">
 				
 				<div style="position: absolute; left: 39%; top : 39%;">
-					
+					<%
+						if (usu.isPresent()){
+					%>
 						<form action="${pageContext.request.contextPath}/tienda/productos/crear">
 							<input type="submit" value="Crear">
 						</form>
+					<%
+						}
+					%>
 					</div>
 				
 			</div>
@@ -63,6 +90,9 @@
 				<form action="${pageContext.request.contextPath}/tienda/productos/<%= producto.getIdProducto()%>" style="display: inline;">
     				<input type="submit" value="Ver Detalle" />
 				</form>
+				<%
+					if (usu.isPresent()){
+				%>
 				<form action="${pageContext.request.contextPath}/tienda/productos/editar/<%= producto.getIdProducto()%>" style="display: inline;">
     				<input type="submit" value="Editar" />
 				</form>
@@ -71,6 +101,9 @@
 					<input type="hidden" name="codigo" value="<%= producto.getIdProducto()%>"/>
     				<input type="submit" value="Eliminar" />
 				</form>
+				<%
+					}
+				%>
 			</div>
 		</div>
 	<% 

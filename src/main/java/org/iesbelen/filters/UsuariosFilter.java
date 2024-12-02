@@ -55,7 +55,7 @@ public class UsuariosFilter  extends HttpFilter implements Filter {
                 || url.contains("/usuarios/editar")
                 || url.contains("/usuarios/borrar")) {
 
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/tienda/usuarios/login");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/tienda/login/login");
             return;
 
         } else {

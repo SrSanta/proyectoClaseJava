@@ -40,7 +40,7 @@ public class UsuariosServlet extends HttpServlet {
             dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuarios.jsp");
 
         } else if ("/login".equals(pathInfo)) {
-            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/login.jsp");
+            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login/login.jsp");
 
         } else {
             // GET
