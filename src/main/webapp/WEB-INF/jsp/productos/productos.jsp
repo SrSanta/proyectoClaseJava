@@ -51,7 +51,7 @@
 				
 				<div style="position: absolute; left: 39%; top : 39%;">
 					<%
-						if (usu.isPresent()){
+						if (session.getAttribute("usuario-logado") != null && "administrador".equals(usu.get().getRol())){
 					%>
 						<form action="${pageContext.request.contextPath}/tienda/productos/crear">
 							<input type="submit" value="Crear">
@@ -91,7 +91,7 @@
     				<input type="submit" value="Ver Detalle" />
 				</form>
 				<%
-					if (usu.isPresent()){
+					if (session.getAttribute("usuario-logado") != null && "administrador".equals(usu.get().getRol())){
 				%>
 				<form action="${pageContext.request.contextPath}/tienda/productos/editar/<%= producto.getIdProducto()%>" style="display: inline;">
     				<input type="submit" value="Editar" />

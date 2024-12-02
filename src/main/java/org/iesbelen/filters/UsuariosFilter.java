@@ -39,7 +39,7 @@ public class UsuariosFilter  extends HttpFilter implements Filter {
 
         if (session != null
                 && (usuario = (Usuario)session.getAttribute("usuario-logado") )!= null
-                && "administrador".equals(usuario.getRol())) {
+                && rolAcceso.equals(usuario.getRol())) {
 
             filterChain.doFilter(httpRequest, httpResponse);
 
@@ -48,10 +48,10 @@ public class UsuariosFilter  extends HttpFilter implements Filter {
         } else if (url.endsWith("/fabricantes/crear")
                 || url.contains("/fabricantes/editar")
                 || url.contains("/fabricantes/borrar")
-                || url.contains("/productos/crear")
+                || url.endsWith("/productos/crear")
                 || url.contains("/productos/editar")
                 || url.contains("/productos/borrar")
-                || url.contains("/usuarios/crear")
+                || url.endsWith("/usuarios/crear")
                 || url.contains("/usuarios/editar")
                 || url.contains("/usuarios/borrar")) {
 
